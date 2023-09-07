@@ -169,7 +169,10 @@ You can also run directly with a container:
 ```
 $ sudo docker run -p 6343:6343/udp -p 2055:2055/udp -ti netsampler/goflow2:latest
 ```
-
+Build docker image example:
+```
+docker build -t ecpaas-dockerhub.ddns.net/goflow2:58f0f97 .
+```
 ### Mapping extra fields
 
 In the case of exotic template fields or extra payload not supported by GoFlow2
