@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/netsampler/goflow2/v2/decoders/netflow"
-	"github.com/netsampler/goflow2/v2/decoders/sflow"
+	"github.com/nocsysmars/goflow2/v2/decoders/netflow"
+	"github.com/nocsysmars/goflow2/v2/decoders/sflow"
 	"github.com/stretchr/testify/assert"
 )
 

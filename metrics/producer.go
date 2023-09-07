@@ -3,11 +3,11 @@ package metrics
 import (
 	"net/netip"
 
-	"github.com/netsampler/goflow2/v2/decoders/netflow"
-	"github.com/netsampler/goflow2/v2/decoders/netflowlegacy"
-	"github.com/netsampler/goflow2/v2/decoders/sflow"
-	flowmessage "github.com/netsampler/goflow2/v2/pb"
-	"github.com/netsampler/goflow2/v2/producer"
+	"github.com/nocsysmars/goflow2/v2/decoders/netflow"
+	"github.com/nocsysmars/goflow2/v2/decoders/netflowlegacy"
+	"github.com/nocsysmars/goflow2/v2/decoders/sflow"
+	flowmessage "github.com/nocsysmars/goflow2/v2/pb"
+	"github.com/nocsysmars/goflow2/v2/producer"
 
 	"github.com/prometheus/client_golang/prometheus"
 )

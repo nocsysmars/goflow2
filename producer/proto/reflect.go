@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/protobuf/encoding/protowire"
 
-	"github.com/netsampler/goflow2/v2/decoders/netflow"
+	"github.com/nocsysmars/goflow2/v2/decoders/netflow"
 )
 
 type EndianType string

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/netsampler/goflow2/v2/decoders/netflow"
-	"github.com/netsampler/goflow2/v2/utils"
+	"github.com/nocsysmars/goflow2/v2/decoders/netflow"
+	"github.com/nocsysmars/goflow2/v2/utils"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
