@@ -8,6 +8,10 @@ import (
 	"github.com/nocsysmars/goflow2/v2/producer"
 )
 
+const (
+    PORT_GENEVE = 6081
+)
+
 func GetSFlowFlowSamples(packet *sflow.Packet) []interface{} {
 	var flowSamples []interface{}
 	for _, sample := range packet.Samples {
@@ -179,6 +183,50 @@ func ParseUDP(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOf
 	return offset, err
 }
 
+func ParseGeneve(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
+	if len(data) >= offset+8 {
+		prevOffset:= offset
+		parseFail := false
+		genOptLen := int(data[offset+0] & 0x3f) * 4
+
+		if len(data) >= offset + 8 + genOptLen {
+			offset += (8 + genOptLen)
+		} else {
+			parseFail = true
+		}
+
+		if !parseFail && len(data) >= offset+14 {
+			inEth := data[offset+12 : offset+14]
+			offset += 14
+
+			if Is8021Q(inEth) { // VLAN 802.1Q
+				if len(data) >= offset+4 {
+					offset += 4
+				} else {
+					parseFail = true
+				}
+			}
+
+			if !parseFail && IsIPv4(inEth) { // IPv4
+				if len(data) >= offset+20 {
+					flowMessage.InSrcAddr = data[offset+12 : offset+16]
+					flowMessage.InDstAddr = data[offset+16 : offset+20]
+					offset += 20
+				} else {
+					parseFail = true
+				}
+			}
+		}
+
+		if parseFail {
+			offset = prevOffset
+		}
+	}
+
+	return offset, err
+}
+
+
 func ParseICMP(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
 	if len(data) >= offset+2 {
 		flowMessage.IcmpType = uint32(data[offset+0])
@@ -318,6 +366,12 @@ func ParseEthernetHeader(flowMessage *ProtoProducerMessage, data []byte, config 
 					for _, configLayer := range GetSFlowConfigLayer(config, "udp") {
 						extracted := GetBytes(data, prevOffset*8+configLayer.Offset, configLayer.Length)
 						if err := MapCustom(flowMessage, extracted, configLayer.MapConfigBase); err != nil {
+							return err
+						}
+					}
+
+					if flowMessage.DstPort == PORT_GENEVE {
+						if offset, err = ParseGeneve(offset, flowMessage, data); err != nil {
 							return err
 						}
 					}
