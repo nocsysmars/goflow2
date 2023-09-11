@@ -1,0 +1,47 @@
+FROM golang:alpine as builder
+ARG LDFLAGS=""
+
+RUN apk --update --no-cache add git build-base gcc protobuf-dev
+
+COPY . /build
+WORKDIR /build
+
+# for protobuf
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+#RUN go build -ldflags "${LDFLAGS}" -o goflow2 cmd/goflow2/main.go
+RUN go build -gcflags=all="-N -l" -o goflow2 cmd/goflow2/main.go
+
+# Build Delve
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+
+#FROM alpine:latest
+ARG src_dir
+ARG VERSION=""
+ARG CREATED=""
+ARG DESCRIPTION=""
+ARG NAME=""
+ARG MAINTAINER=""
+ARG URL=""
+ARG LICENSE=""
+ARG REV=""
+
+LABEL org.opencontainers.image.created="${CREATED}"
+LABEL org.opencontainers.image.authors="${MAINTAINER}"
+LABEL org.opencontainers.image.url="${URL}"
+LABEL org.opencontainers.image.title="${NAME}"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.description="${DESCRIPTION}"
+LABEL org.opencontainers.image.licenses="${LICENSE}"
+LABEL org.opencontainers.image.revision="${REV}"
+
+RUN apk update --no-cache && \
+    adduser -S -D -H -h / flow
+USER root
+
+#COPY --from=builder /build/goflow2 /
+#COPY --from=builder /go/bin/dlv /
+#COPY --from=builder /build/ /build/
+
+ENTRYPOINT ["./goflow2"]
