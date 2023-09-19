@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "goflow.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "goflow.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.metric.port }}
+      {{- if .Values.service.metric.nodeport }}
+      nodePort: {{ .Values.service.metric.nodeport }}
+      {{- end }}
+      targetPort: {{ .Values.service.metric.port }}
+      protocol: {{ .Values.service.metric.protocol }}
+      name: metric
+    - port: {{ .Values.service.sflow.port }}
+      {{- if .Values.service.sflow.nodeport }}
+      nodePort: {{ .Values.service.sflow.nodeport }}
+      {{- end }}
+      targetPort: {{ .Values.service.sflow.port }}
+      protocol: {{ .Values.service.sflow.protocol }}
+      name: sflow
+    - port: {{ .Values.service.nflow.port }}
+      {{- if .Values.service.nflow.nodeport }}
+      nodePort: {{ .Values.service.nflow.nodeport }}
+      {{- end }}
+      targetPort: {{ .Values.service.nflow.port }}
+      protocol: {{ .Values.service.nflow.protocol }}
+      name: nflow
+  selector:
+    {{- include "goflow.selectorLabels" . | nindent 4 }}

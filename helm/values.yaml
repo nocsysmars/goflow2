@@ -1,0 +1,136 @@
+# Default values for flow-pipeline
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+goflow:
+  enabled: true
+  dev:
+    enabled: false
+
+    # use --set goflow.dev.workdir=${PWD} to replace it
+    # mount workdir for develop env
+    workdir: /home/manager/goflow2
+
+  # overwrite the goflow2's original cmdstr for develop env
+  #cmdstr: sleep infinity
+
+  # another example
+  #cmdstr: |
+  #  sleep 15
+  #  /goflow2 -transport.kafka.brokers={{ .Release.Name }}-kafka.{{ .Release.Namespace }}:9092 \
+  #  -transport=kafka -transport.kafka.topic=flows -format=bin
+
+  # use fixed nodeport
+  service:
+    metric:
+      nodeport: 31148
+    sflow:
+      nodeport: 31343
+    nflow:
+      nodeport: 32363
+
+kafka:
+  enabled: true
+
+  persistence:
+    enabled: false
+
+  zookeeper:
+    persistence:
+      enabled: false
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 250m
+
+altinity-clickhouse-operator:
+  enabled: true
+
+clickhouse-instance:
+  name-suffix: "db"
+
+grafana:
+  enabled: true
+
+  adminPassword: grafana
+  service:
+    type: NodePort
+    nodePort: 31666
+
+  plugins: vertamedia-clickhouse-datasource
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: ClickHouse
+          type: vertamedia-clickhouse-datasource
+          access: proxy
+          # TODO: how to generate svc name for chi dnamically ???
+          # "db" is clickhouse-instance.name-suffix
+          url: http://chi-{{ .Release.Name }}-db-{{ .Release.Name }}-chi-0-0.{{ .Release.Namespace }}:8123
+          # TODO: how to use other username/password instead of default user ???
+          #basicAuthUser: grafana
+          #basicAtthPassword: grafana
+          #basicAuth: true
+          # TODO: svc name ???
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: http://{{ .Release.Name }}-prometheus-server.{{ .Release.Namespace }}
+          editable: true
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /tmp/dashboards
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      folder: /tmp/dashboards
+
+#  dashboardsConfigMaps:
+#    default: "grafana-dashboards"
+
+prometheus:
+  enabled: true
+
+  extraScrapeConfigs: |
+    - job_name: 'goflow'
+      static_configs:
+        - targets:
+          - {{ .Release.Name }}-goflow.{{ .Release.Namespace }}:8080
+
+  alertmanager:
+    enabled: false
+
+  kube-state-metrics:
+    enabled: false
+
+  prometheus-node-exporter:
+    enabled: false
+
+  prometheus-pushgateway:
+    enabled: false
+
+# cleanup job to remove clickhouse CRD
+cleanup:
+  enabled: true
+
+## Hyperkube image to use when cleaning up
+##
+hyperkubeImage:
+  repository: k8s.gcr.io/hyperkube
+  tag: v1.12.1
+  pullPolicy: IfNotPresent

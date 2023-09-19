@@ -1,0 +1,18 @@
+dependencies:
+- name: goflow
+  repository: file://goflow/
+  version: 0.1.0
+- name: kafka
+  repository: https://charts.bitnami.com/bitnami
+  version: 20.0.6
+- name: altinity-clickhouse-operator
+  repository: https://docs.altinity.com/clickhouse-operator/
+  version: 0.20.3
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.50.8
+- name: prometheus
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 19.6.1
+digest: sha256:64324fb8d367cde725b5307e70749113d933dd655116e030361f2c2aec5f42b6
+generated: "2023-03-01T10:44:36.962875824Z"
