@@ -211,7 +211,27 @@ func ParseGeneve(offset int, flowMessage *ProtoProducerMessage, data []byte) (ne
 				if len(data) >= offset+20 {
 					flowMessage.InSrcAddr = data[offset+12 : offset+16]
 					flowMessage.InDstAddr = data[offset+16 : offset+20]
+					flowMessage.InProto   = uint32(data[offset+9])
 					offset += 20
+
+					if flowMessage.InProto == 6 { // TCP
+						if len(data) >= offset+4 {
+							flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
+							flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
+						}
+						if len(data) >= offset+13 {
+							in_length := int(data[13]>>4) * 4
+							offset += in_length
+						} else {
+							offset = len(data)
+						}
+					} else if flowMessage.InProto == 17 { // UDP
+					    if len(data) >= offset+4 {
+							flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
+							flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
+						}
+						offset += 8
+					}
 				} else {
 					parseFail = true
 				}
