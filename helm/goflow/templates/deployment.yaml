@@ -63,7 +63,17 @@ spec:
               containerPort: 2055
               protocol: UDP
           resources:
+      # for dev env setup
+      {{- if .Values.dev.enabled }}
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+      {{- else }}
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
