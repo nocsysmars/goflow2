@@ -8,6 +8,10 @@ keywords:
   - flow-pipeline
 
 dependencies:
+  - name: udpreplicator
+    repository: "file://udpreplicator"
+    version: "0.1.0"
+    condition: udpreplicator.enabled
   - name: goflow
     repository: "file://goflow/"
     version: "0.1.0"

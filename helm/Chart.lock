@@ -1,4 +1,7 @@
 dependencies:
+- name: udpreplicator
+  repository: file://udpreplicator
+  version: 0.1.0
 - name: goflow
   repository: file://goflow/
   version: 0.1.0
@@ -14,5 +17,5 @@ dependencies:
 - name: prometheus
   repository: https://prometheus-community.github.io/helm-charts
   version: 19.6.1
-digest: sha256:64324fb8d367cde725b5307e70749113d933dd655116e030361f2c2aec5f42b6
-generated: "2023-03-01T10:44:36.962875824Z"
+digest: sha256:9e939f36e7456c5792bf2fe466f27c2b90a146d15a5779e7970c6e424791a13f
+generated: "2023-09-20T09:38:50.443675979Z"

@@ -2,6 +2,18 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+udpreplicator:
+  enabled: false
+  service:
+    nodeport: 31767
+  #cmdstr: |
+  #  /udp-replicator --listen-port=6343 --forward={{ .Release.Name }}-goflow.{{ .Release.Namespace }}:6343
+
+  # an example to forward sflow to targets
+  forward:
+  - target: "{{ .Release.Name }}-goflow.{{ .Release.Namespace }}:6343"
+  - target: "192.168.40.32:31343"
+
 goflow:
   enabled: true
   dev:

@@ -1,0 +1,6 @@
+{{- if contains "NodePort" .Values.service.type }}
+
+USE command below to check the nodePort:
+   kubectl describe svc {{ include "udprepl.fullname" . }} -n {{ .Release.Namespace }}
+
+{{- end }}

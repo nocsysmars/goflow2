@@ -1,0 +1,42 @@
+# Default values for udpreplicator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ecpaas-dockerhub.ddns.net/bgrynblat/udp-replicator
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+#cmdstr: |
+#  /udp-replicator --listen-port=6343 --forward={{ .Release.Name }}-goflow.{{ .Release.Namespace }}:6343
+
+# forward sflow to targets by default
+service:
+  type: NodePort
+  protocol: UDP
+  port: 6343
+
+forward:
+- target: "192.168.40.32:6343"
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
