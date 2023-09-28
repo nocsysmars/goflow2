@@ -71,6 +71,9 @@ message FlowMessage {
   uint32 fragment_id = 35;
   uint32 fragment_offset = 36;
 
+  // vnid from VXLAN or GENEVE
+  uint32 vnid = 223;
+
   // Inner Source/destination addresses
   bytes in_src_addr = 206;
   bytes in_dst_addr = 207;

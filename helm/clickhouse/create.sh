@@ -47,6 +47,8 @@ clickhouse client -n <<-EOSQL
         in_src_port UInt32,
         in_dst_port UInt32,
 
+        vnid UInt32,
+
         bytes UInt64,
         packets UInt64
     ) ENGINE = Kafka()
@@ -87,6 +89,8 @@ clickhouse client -n <<-EOSQL
         in_src_port UInt32,
         in_dst_port UInt32,
 
+        vnid UInt32,
+
         bytes UInt64,
         packets UInt64
     ) ENGINE = MergeTree()
@@ -121,6 +125,7 @@ clickhouse client -n <<-EOSQL
         in_proto,
         in_src_port,
         in_dst_port,
+        vnid,
 
         bytes,
         packets

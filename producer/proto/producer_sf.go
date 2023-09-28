@@ -9,7 +9,8 @@ import (
 )
 
 const (
-    PORT_GENEVE = 6081
+	PORT_GENEVE = 6081
+	PORT_VXLAN  = 4789
 )
 
 func GetSFlowFlowSamples(packet *sflow.Packet) []interface{} {
@@ -183,13 +184,83 @@ func ParseUDP(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOf
 	return offset, err
 }
 
+func ParseInnerHeader(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
+	inEth     := []byte{0, 0}
+	prevOfs   := offset
+
+	parseFail := !(len(data) >= offset+14)
+	if !parseFail {
+		inEth = data[offset+12 : offset+14]
+		offset += 14
+
+		if Is8021Q(inEth) { // VLAN 802.1Q
+			parseFail = !(len(data) >= offset+4)
+			if !parseFail  {
+				offset += 4
+			}
+		}
+	}
+
+	if !parseFail {
+		if IsIPv4(inEth) { // IPv4
+			parseFail = !(len(data) >= offset+20)
+			if !parseFail {
+				flowMessage.InSrcAddr = data[offset+12 : offset+16]
+				flowMessage.InDstAddr = data[offset+16 : offset+20]
+				flowMessage.InProto   = uint32(data[offset+9])
+				offset += 20
+			}
+		} else if IsIPv6(inEth) { // IPv6
+			parseFail = !(len(data) >= offset+40)
+			if !parseFail {
+			flowMessage.InSrcAddr = data[offset+8 : offset+24]
+			flowMessage.InDstAddr = data[offset+24 : offset+40]
+				flowMessage.InProto   = uint32(data[offset+6])
+				offset += 40
+			}
+		} else {
+			parseFail = true
+		}
+	}
+
+	if !parseFail {
+		if flowMessage.InProto == 6 { // TCP
+			if len(data) >= offset+4 {
+				flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
+				flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
+			}
+			if len(data) >= offset+13 {
+				in_length := int(data[13]>>4) * 4
+				offset += in_length
+			} else {
+				offset = len(data)
+			}
+		} else if flowMessage.InProto == 17 { // UDP
+		    if len(data) >= offset+4 {
+				flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
+				flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
+			}
+			offset += 8
+		}
+	}
+
+	if parseFail {
+		offset = prevOfs
+	}
+
+	return offset, err
+}
+
 func ParseGeneve(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
 	if len(data) >= offset+8 {
-		inEth  := []byte{0, 0}
-
-		prevOffset:= offset
+		prevOfs   := offset
 		parseFail := false
 		genOptLen := int(data[offset+0] & 0x3f) * 4
+
+		var buf [4]byte
+		copy(buf[1:], data[offset+4:offset+7])
+
+		flowMessage.Vnid = binary.BigEndian.Uint32(buf[:]) // RFC8926
 
 		if len(data) >= offset + 8 + genOptLen {
 			offset += (8 + genOptLen)
@@ -198,71 +269,34 @@ func ParseGeneve(offset int, flowMessage *ProtoProducerMessage, data []byte) (ne
 		}
 
 		if !parseFail {
-			parseFail = !(len(data) >= offset+14)
-			if !parseFail {
-				inEth = data[offset+12 : offset+14]
-				offset += 14
-
-				if Is8021Q(inEth) { // VLAN 802.1Q
-					parseFail = !(len(data) >= offset+4)
-					if !parseFail  {
-						offset += 4
-					}
-				}
-			}
-		}
-
-		if !parseFail {
-			if IsIPv4(inEth) { // IPv4
-				parseFail = !(len(data) >= offset+20)
-				if !parseFail {
-					flowMessage.InSrcAddr = data[offset+12 : offset+16]
-					flowMessage.InDstAddr = data[offset+16 : offset+20]
-					flowMessage.InProto   = uint32(data[offset+9])
-					offset += 20
-				}
-			} else if IsIPv6(inEth) { // IPv6
-				parseFail = !(len(data) >= offset+40)
-				if !parseFail {
-			        flowMessage.InSrcAddr = data[offset+8 : offset+24]
-			        flowMessage.InDstAddr = data[offset+24 : offset+40]
-					flowMessage.InProto   = uint32(data[offset+6])
-					offset += 40
-				}
-			} else {
-				parseFail = true
-			}
-		}
-
-		if !parseFail {
-			if flowMessage.InProto == 6 { // TCP
-				if len(data) >= offset+4 {
-					flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
-					flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
-				}
-				if len(data) >= offset+13 {
-					in_length := int(data[13]>>4) * 4
-					offset += in_length
-				} else {
-					offset = len(data)
-				}
-			} else if flowMessage.InProto == 17 { // UDP
-			    if len(data) >= offset+4 {
-					flowMessage.InSrcPort = uint32(binary.BigEndian.Uint16(data[offset+0 : offset+2]))
-					flowMessage.InDstPort = uint32(binary.BigEndian.Uint16(data[offset+2 : offset+4]))
-				}
-				offset += 8
+			if offset, err = ParseInnerHeader(offset, flowMessage, data); err != nil {
+				return offset, err
 			}
 		}
 
 		if parseFail {
-			offset = prevOffset
+			offset = prevOfs
 		}
 	}
 
 	return offset, err
 }
 
+func ParseVxlan(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
+	if len(data) >= offset+8 {
+		var buf [4]byte
+
+		copy(buf[1:], data[offset+4:offset+7])
+		flowMessage.Vnid = binary.BigEndian.Uint32(buf[:]) // RFC7348
+
+		offset += 8
+		if offset, err = ParseInnerHeader(offset, flowMessage, data); err != nil {
+			return offset, err
+		}
+	}
+
+	return offset, err
+}
 
 func ParseICMP(offset int, flowMessage *ProtoProducerMessage, data []byte) (newOffset int, err error) {
 	if len(data) >= offset+2 {
@@ -407,8 +441,14 @@ func ParseEthernetHeader(flowMessage *ProtoProducerMessage, data []byte, config 
 						}
 					}
 
-					if flowMessage.DstPort == PORT_GENEVE {
+					switch flowMessage.DstPort {
+					case PORT_GENEVE:
 						if offset, err = ParseGeneve(offset, flowMessage, data); err != nil {
+							return err
+						}
+
+					case PORT_VXLAN:
+						if offset, err = ParseVxlan(offset, flowMessage, data); err != nil {
 							return err
 						}
 					}
