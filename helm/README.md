@@ -13,3 +13,11 @@ helm install {release} -n {namespace} .
 
 _See [helm install](https://helm.sh/docs/helm/helm_install/) for command documentation._
 
+---
+
+## Configuration
+
+| Parameter | Description | Default |
+|:----------|:------------|:--------|
+| `grafana.adminUser`     | default username for grafana | admin   |
+| `grafana.adminPassword` | default password for grafana | grafana |
