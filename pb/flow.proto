@@ -1,6 +1,6 @@
 syntax = "proto3";
 package flowpb;
-option go_package = "github.com/netsampler/goflow2/pb;flowpb";
+option go_package = "github.com/nocsysmars/goflow2/pb;flowpb";
 
 message FlowMessage {
 
@@ -70,6 +70,20 @@ message FlowMessage {
   // Fragments (IPv4/IPv6)
   uint32 fragment_id = 35;
   uint32 fragment_offset = 36;
+
+  // vnid from VXLAN or GENEVE
+  uint32 vnid = 223;
+
+  // Inner Source/destination addresses
+  bytes in_src_addr = 206;
+  bytes in_dst_addr = 207;
+
+  // Ports for inner UDP and TCP
+  uint32 in_src_port = 221;
+  uint32 in_dst_port = 222;
+
+  // Layer 4 protocol for inner header
+  uint32 in_proto = 220;
 
   // Autonomous system information
   uint32 src_as = 14;

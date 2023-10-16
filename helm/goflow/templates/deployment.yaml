@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "goflow.fullname" . }}
+  labels:
+    {{- include "goflow.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "goflow.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "goflow.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.dev.enabled }}
+      volumes:
+        - name: host-mount
+          hostPath:
+            path: {{ .Values.dev.workdir }}
+      {{- end }}
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+      # for dev env setup
+      {{- if .Values.dev.enabled }}
+          volumeMounts:
+            - name: host-mount
+              mountPath: /src
+
+      {{- end }}
+          command:
+            - /bin/sh
+            - '-c'
+            - |
+              /bin/sh <<'EOF'
+              {{ tpl (.Values.cmdstr) . | nindent 14 }}
+              EOF
+
+          ports:
+            - name: metric
+              containerPort: 8080
+              protocol: TCP
+            - name: sflow
+              containerPort: 6343
+              protocol: UDP
+            - name: nflow
+              containerPort: 2055
+              protocol: UDP
+          resources:
+      # for dev env setup
+      {{- if .Values.dev.enabled }}
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+      {{- else }}
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

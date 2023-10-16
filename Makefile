@@ -64,6 +64,20 @@ docker:
         --build-arg REV="$(COMMIT)" \
         -t $(DOCKER_REPO)$(NAME):$(ABBREV)$(DOCKER_SUFFIX) .
 
+.PHONY: docker-dev
+docker-dev:
+	$(DOCKER_BIN) $(DOCKER_CMD) \
+        --build-arg LDFLAGS=$(LDFLAGS) \
+        --build-arg CREATED="$(DATE)" \
+        --build-arg MAINTAINER="$(MAINTAINER)" \
+        --build-arg URL="$(URL)" \
+        --build-arg NAME="$(NAME)" \
+        --build-arg DESCRIPTION="$(DESCRIPTION)" \
+        --build-arg LICENSE="$(LICENSE)" \
+        --build-arg VERSION="$(VERSION)" \
+        --build-arg REV="$(COMMIT)" \
+        -t sq/$(NAME):test$(DOCKER_SUFFIX) -f Dockerfile.dev .
+
 .PHONY: push-docker
 push-docker:
 	$(DOCKER_BIN) push $(DOCKER_REPO)$(NAME):$(ABBREV)$(DOCKER_SUFFIX)

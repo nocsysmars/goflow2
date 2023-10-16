@@ -1,0 +1,21 @@
+dependencies:
+- name: udpreplicator
+  repository: file://udpreplicator
+  version: 0.1.0
+- name: goflow
+  repository: file://goflow/
+  version: 0.1.0
+- name: kafka
+  repository: https://charts.bitnami.com/bitnami
+  version: 20.0.6
+- name: altinity-clickhouse-operator
+  repository: https://docs.altinity.com/clickhouse-operator/
+  version: 0.20.3
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.50.8
+- name: prometheus
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 19.6.1
+digest: sha256:9e939f36e7456c5792bf2fe466f27c2b90a146d15a5779e7970c6e424791a13f
+generated: "2023-09-20T09:38:50.443675979Z"
