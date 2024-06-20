@@ -48,6 +48,10 @@ spec:
                 mountPath: /tmp/protocols.csv
                 subPath: protocols.csv
                 readOnly: true
+              - name: data-vct
+                mountPath: /var/lib/clickhouse
+              - name: log-vct
+                mountPath: /var/log/clickhouse-server
         volumes:
               - name: volume-initdb
                 configMap:
@@ -59,3 +63,18 @@ spec:
                 configMap:
                   name: {{.Release.Name}}-cm-csv
 
+    volumeClaimTemplates:
+      - name: data-vct
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+      - name: log-vct
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi

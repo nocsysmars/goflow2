@@ -27,7 +27,11 @@ spec:
           - /bin/sh
           - -c
           - >
-                  kubectl -n {{.Release.Namespace}} patch clickhouseinstallations.clickhouse.altinity.com/{{.Release.Name}}-{{index .Values "clickhouse-instance" "name-suffix"}} -p '{"metadata":{"finalizers":[]}}' --type=merge
+                  kubectl -n {{.Release.Namespace}} patch clickhouseinstallations.clickhouse.altinity.com/{{.Release.Name}}-{{index .Values "clickhouse-instance" "name-suffix"}} -p '{"metadata":{"finalizers":[]}}' --type=merge;
+  {{- if (index .Values "altinity-clickhouse-operator" "rem-pvc") }}
+                  sleep 10;
+                  kubectl delete pvc --all -n {{.Release.Namespace}}
+  {{- end }}
       restartPolicy: Never
   backoffLimit: 2
 {{- end }}

@@ -57,6 +57,7 @@ kafka:
 
 altinity-clickhouse-operator:
   enabled: true
+  rem-pvc: false
 
 clickhouse-instance:
   name-suffix: "db"
