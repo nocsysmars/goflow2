@@ -4,7 +4,7 @@ GOOS          ?= linux
 ARCH          ?= $(shell uname -m)
 BUILDINFOSDET ?= 
 
-DOCKER_REPO   ?= ecpaas-dockerhub.ddns.net/
+DOCKER_REPO   ?= ecpaas-dockerhub.atan-networks.com.cn/ecpaas/
 NAME          := goflow2
 VERSION       ?= $(shell git describe --abbrev --long HEAD)
 ABBREV        ?= $(shell git rev-parse --short HEAD)

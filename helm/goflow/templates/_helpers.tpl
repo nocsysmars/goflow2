@@ -60,3 +60,15 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the proper image name
+*/}}
+{{- define "goflow.image" -}}
+{{- if .Values.global.repoPrefix }}
+    {{- printf "%s/%s:%s" .Values.global.repoPrefix .Values.image.repository .Values.image.tag -}}
+{{- else }}
+    {{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
+{{- end }}
+{{- end }}
+

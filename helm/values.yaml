@@ -2,6 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  repoPrefix: &imgRepo "ecpaas-dockerhub.atan-networks.com.cn/ecpaas"
+
 udpreplicator:
   enabled: false
   service:
@@ -37,7 +40,7 @@ goflow:
     metric:
       nodeport: 31148
     sflow:
-      nodeport: 31343
+      nodeport: 31767
     nflow:
       nodeport: 32363
 
@@ -57,6 +60,7 @@ kafka:
 
 altinity-clickhouse-operator:
   enabled: true
+  rem-pvc: false
 
 clickhouse-instance:
   name-suffix: "db"

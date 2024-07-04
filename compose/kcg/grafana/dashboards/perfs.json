@@ -3,24 +3,37 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "Metrics about the NetFlow+sFlow collector",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -29,27 +42,56 @@
       },
       "id": 53,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Totals",
       "type": "row"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
-      "datasource": "Prometheus",
-      "format": "pps",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(31, 120, 193)",
+            "mode": "fixed"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 7,
@@ -58,78 +100,78 @@
         "y": 1
       },
       "id": 9,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_flowset_records_sum[5m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_total[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": "",
       "title": "NetFlows Total",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "avg"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
-      "datasource": "Prometheus",
-      "format": "pps",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(31, 120, 193)",
+            "mode": "fixed"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 7,
@@ -138,63 +180,46 @@
         "y": 1
       },
       "id": 10,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
-          "expr": "sum(rate(flow_process_sf_samples_sum[5m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_sf_total[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": "",
       "title": "sFlows Total",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "avg"
+      "type": "stat"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -203,7 +228,15 @@
       },
       "id": 54,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Flows UDP Metrics",
       "type": "row"
     },
@@ -212,14 +245,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 51,
       "legend": {
         "alignAsTable": true,
@@ -238,7 +276,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -255,13 +297,23 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(udp_traffic_bytes[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_bytes_total[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(rate(udp_traffic_bytes[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
@@ -270,9 +322,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "UDP2Kafka Bandwidth",
       "tooltip": {
         "shared": false,
@@ -281,33 +331,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "Bps",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -315,14 +357,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 52,
       "legend": {
         "alignAsTable": true,
@@ -341,7 +388,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -358,13 +409,23 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(udp_traffic_packets[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_packets_total[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(rate(udp_traffic_packets[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
@@ -373,9 +434,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "UDP2Kafka packets",
       "tooltip": {
         "shared": false,
@@ -384,9 +443,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -395,22 +452,17 @@
           "format": "pps",
           "label": "",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -418,14 +470,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 1,
       "legend": {
         "alignAsTable": true,
@@ -444,7 +501,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -461,10 +522,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_traffic_bytes{type=\"sFlow\"}[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_bytes_total{type=\"sflow\"}[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
@@ -472,6 +539,10 @@
           "alias": "$tag_type | Total",
           "currentTagKey": "",
           "currentTagValue": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "downsampleAggregator": "avg",
           "downsampleFillPolicy": "none",
           "downsampleInterval": "",
@@ -488,9 +559,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlow UDP Bandwidth",
       "tooltip": {
         "shared": false,
@@ -499,33 +568,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "Bps",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -533,14 +594,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "alignAsTable": true,
@@ -559,7 +625,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -576,10 +646,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_traffic_packets{type=\"sFlow\"}[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_packets_total{type=\"sflow\"}[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
@@ -587,6 +663,10 @@
           "alias": "$tag_type | Total",
           "currentTagKey": "",
           "currentTagValue": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "downsampleAggregator": "avg",
           "downsampleFillPolicy": "none",
           "downsampleInterval": "",
@@ -603,9 +683,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlow UDP Packets",
       "tooltip": {
         "shared": false,
@@ -614,9 +692,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -625,22 +701,17 @@
           "format": "pps",
           "label": "",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -648,14 +719,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 48,
       "legend": {
         "alignAsTable": true,
@@ -674,7 +750,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -691,13 +771,23 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_traffic_bytes{type=\"NetFlow\"}[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_bytes_total{type=\"netflow\"}[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "sum(rate(flow_traffic_bytes{type=\"NetFlow\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
@@ -706,9 +796,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlow UDP Bandwidth",
       "tooltip": {
         "shared": false,
@@ -717,33 +805,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "Bps",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -751,14 +831,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 10,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "alignAsTable": true,
@@ -777,7 +862,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -794,10 +883,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_traffic_packets{type=\"NetFlow\"}[5m])) by (remote_ip)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_packets_total{type=\"netflow\"}[5m])) by (remote_ip)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ remote_ip }}",
+          "range": true,
           "refId": "A"
         },
         {
@@ -805,6 +900,10 @@
           "alias": "$tag_type | Total",
           "currentTagKey": "",
           "currentTagValue": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "downsampleAggregator": "avg",
           "downsampleFillPolicy": "none",
           "downsampleInterval": "",
@@ -821,9 +920,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlow UDP Packets",
       "tooltip": {
         "shared": false,
@@ -832,9 +929,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -843,26 +938,25 @@
           "format": "pps",
           "label": "",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -871,7 +965,15 @@
       },
       "id": 55,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "NetFlow metrics",
       "type": "row"
     },
@@ -880,14 +982,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "alignAsTable": true,
@@ -903,7 +1010,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -913,17 +1024,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_flowset_records_sum[5m])) by (version,type)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_flowset_records_total[5m])) by (version,type)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ version }} | {{ type }} ",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlows by type and version",
       "tooltip": {
         "shared": true,
@@ -932,33 +1047,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -966,14 +1072,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "alignAsTable": true,
@@ -989,7 +1100,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -999,18 +1114,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_errors_count[5m])) by (error)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_errors_total[5m])) by (error)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ error }}",
           "metric": "goflow-kafka.flow_process_nf_errors_count",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlows errors",
       "tooltip": {
         "shared": true,
@@ -1019,33 +1138,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "hertz",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1053,14 +1163,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "alignAsTable": true,
@@ -1079,7 +1194,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1089,17 +1208,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_templates_count[5m])) by (version,router,type)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_templates_total[5m])) by (version,router,type)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ version }} | {{ router }} | {{ type }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlow templates",
       "tooltip": {
         "shared": false,
@@ -1108,33 +1231,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1142,14 +1256,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 7,
       "legend": {
         "alignAsTable": true,
@@ -1168,7 +1287,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1178,17 +1301,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_flowset_records_sum[5m])) by (router,version)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_flowset_records_total[5m])) by (router,version)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ router }} | {{ version }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlows - DataFlowSets by router and version",
       "tooltip": {
         "shared": false,
@@ -1197,33 +1324,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1231,14 +1349,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 45
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "alignAsTable": true,
@@ -1255,7 +1378,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1265,17 +1392,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_nf_delay_summary_seconds[5m])) by (quantile,router,version)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_nf_delay_seconds[5m])) by (quantile,router,version)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Q{{ quantile }} | {{ router }} | {{ version }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Time between flow and processing",
       "tooltip": {
         "shared": false,
@@ -1284,9 +1415,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1295,26 +1424,25 @@
           "format": "s",
           "label": "",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1323,7 +1451,15 @@
       },
       "id": 56,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "sFlow metrics",
       "type": "row"
     },
@@ -1332,14 +1468,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 53
       },
+      "hiddenSeries": false,
       "id": 5,
       "legend": {
         "alignAsTable": true,
@@ -1355,7 +1496,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1365,17 +1510,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_sf_samples_sum[5m])) by (version,type)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_sf_samples_total[5m])) by (version,type)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ version }} | {{ type }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlows by type",
       "tooltip": {
         "shared": true,
@@ -1384,33 +1533,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1418,14 +1558,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 53
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "alignAsTable": true,
@@ -1444,7 +1589,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1454,17 +1603,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_process_sf_samples_records_sum{type=\"FlowSample\"}[5m])) by (agent,version)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_process_sf_samples_records_total{type=\"FlowSample\"}[5m])) by (agent,version)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ agent }} | {{ version }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlows Flow records by agent and version",
       "tooltip": {
         "shared": false,
@@ -1473,37 +1626,32 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1512,7 +1660,15 @@
       },
       "id": 57,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "NetFlow decoder metrics",
       "type": "row"
     },
@@ -1521,14 +1677,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 61
       },
+      "hiddenSeries": false,
       "id": 11,
       "legend": {
         "alignAsTable": true,
@@ -1547,7 +1708,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1557,17 +1722,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(flow_summary_decoding_time_us{name=\"NetFlow\"}) by (quantile)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "avg(goflow2_flow_decoding_time_seconds{name=\"netflow\"}) by (quantile)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Q{{ quantile }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlow decoding time quantiles",
       "tooltip": {
         "shared": true,
@@ -1576,33 +1745,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "µs",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1610,103 +1770,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 61
       },
-      "id": 12,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "sort": "current",
-        "sortDesc": false,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "avg(flow_summary_processing_time_us{name=\"NetFlow\"}) by (quantile)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Q{{ quantile }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "NetFlow processing time quantiles",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "µs",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "fill": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 61
-      },
+      "hiddenSeries": false,
       "id": 13,
       "legend": {
         "alignAsTable": true,
@@ -1716,8 +1792,6 @@
         "min": true,
         "rightSide": false,
         "show": true,
-        "sort": null,
-        "sortDesc": null,
         "total": false,
         "values": true
       },
@@ -1725,7 +1799,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1735,17 +1813,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_decoder_count{name=\"NetFlow\"}[5m])) by (worker)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_packets_total{type=\"netflow\"}[5m])) by (worker)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Worker {{ worker }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "NetFlow worker rate",
       "tooltip": {
         "shared": true,
@@ -1754,37 +1836,32 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1793,7 +1870,15 @@
       },
       "id": 58,
       "panels": [],
-      "repeat": null,
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "sFlow decoder metrics",
       "type": "row"
     },
@@ -1802,14 +1887,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 69
       },
+      "hiddenSeries": false,
       "id": 15,
       "legend": {
         "alignAsTable": true,
@@ -1827,7 +1917,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1837,17 +1931,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(flow_summary_decoding_time_us{name=\"sFlow\"}) by (quantile)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "avg(goflow2_flow_decoding_time_seconds{name=\"sflow\"}) by (quantile)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Q{{ quantile }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlow decoding time quantiles",
       "tooltip": {
         "shared": true,
@@ -1856,33 +1954,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "µs",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1890,102 +1979,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 69
       },
-      "id": 16,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "sort": "current",
-        "sortDesc": false,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "avg(flow_summary_decoding_time_us{name=\"sFlow\"}) by (quantile)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Q{{ quantile }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "sFlow processing time quantiles",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "µs",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "fill": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 69
-      },
+      "hiddenSeries": false,
       "id": 17,
       "legend": {
         "alignAsTable": true,
@@ -1995,8 +2001,6 @@
         "min": true,
         "rightSide": false,
         "show": true,
-        "sort": null,
-        "sortDesc": null,
         "total": false,
         "values": true
       },
@@ -2004,7 +2008,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2014,17 +2022,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flow_decoder_count{name=\"sFlow\"}[5m])) by (worker)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(goflow2_flow_traffic_packets_total{type=\"sflow\"}[5m])) by (worker)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Worker {{ worker }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "sFlow worker rate",
       "tooltip": {
         "shared": true,
@@ -2033,38 +2045,29 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "pps",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     }
   ],
   "refresh": false,
-  "schemaVersion": 16,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -2102,5 +2105,6 @@
   "timezone": "utc",
   "title": "GoFlow - Internals",
   "uid": "4U5xQZPmz",
-  "version": 2
+  "version": 2,
+  "weekStart": ""
 }
