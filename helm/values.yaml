@@ -51,6 +51,8 @@ kafka:
     enabled: false
 
   zookeeper:
+    # should be the same as memory resource limits
+    heapSize: 256
     persistence:
       enabled: false
     resources:
