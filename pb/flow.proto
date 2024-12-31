@@ -10,6 +10,7 @@ message FlowMessage {
     NETFLOW_V5 = 2;
     NETFLOW_V9 = 3;
     IPFIX = 4;
+    NDPI = 5;
   }
   FlowType type = 1;
 
@@ -108,4 +109,7 @@ message FlowMessage {
 
   uint32 observation_domain_id = 70;
   uint32 observation_point_id = 71;
+
+  // Layer 7 protocol
+  bytes app_proto = 224;
 }
